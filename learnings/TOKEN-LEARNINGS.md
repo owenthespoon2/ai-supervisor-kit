@@ -111,3 +111,10 @@ Newest at the bottom. One entry per measured finding or change.
 - Measured: Sonnet, files + hints: 11–25 calls, eff 33k–61k, ~9.5–10.3k cache read per call; Opus 17 calls, eff 65k, 11.5k per call (n = 3). Per-call context is ~2.5× smaller than in a large monorepo (~24k): CLAUDE.md, board and files read all scale with the project.
 - Finding: fictional fixtures passed while the live read-only check found 412 events unattributed (real message wording differed from the fixture). The supervisor's live check paid for itself again; fix tasks quote the real wording (no private data) in the task.
 - Status: applied (supervisor live check after each batch)
+
+### 2026-11-19 — second adopter, whole build (17 tasks, ~40 min of runs)
+- Measured: 17 tasks, ~1.2M effective in total (27k–165k each; median ~70k). Biggest: a 3-screen UI task (47 calls, 165k) — UI tasks touching one growing 800-line file cost most; split UI by screen.
+- Finding: a task changed a CLI's no-argument default to "open the interactive app"; an old test called it that way, so the next session's test run hung (8.8 min task) and could reach the real system. Rule added to the adopter's CLAUDE.md: tests never start interactive entry points; when a default changes, grep the tests that call it.
+- Finding: the supervisor checked the TUI by driving it headless (Textual `run_test`) with real read-only loaders and actions stubbed, saving SVG screenshots and extracting their text. ~4 calls; found 3 layout issues the unit tests passed over.
+- Slip: a board Edit failed (file changed since read) and the runner was launched anyway; it stopped at once ("no open task"). Check the edit result before launching.
+- Status: applied
