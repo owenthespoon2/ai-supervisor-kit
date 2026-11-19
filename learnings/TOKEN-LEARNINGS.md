@@ -106,3 +106,8 @@ Newest at the bottom. One entry per measured finding or change.
 ### 2026-11-19 — kit created (general)
 - Change: lessons above extracted from the first adopter's notes into this kit; runner records `effective` and `perCallCacheRead` per task directly.
 - Status: applied
+
+### 2026-11-19 — second adopter, first batch (small Python project)
+- Measured: Sonnet, files + hints: 11–25 calls, eff 33k–61k, ~9.5–10.3k cache read per call; Opus 17 calls, eff 65k, 11.5k per call (n = 3). Per-call context is ~2.5× smaller than in a large monorepo (~24k): CLAUDE.md, board and files read all scale with the project.
+- Finding: fictional fixtures passed while the live read-only check found 412 events unattributed (real message wording differed from the fixture). The supervisor's live check paid for itself again; fix tasks quote the real wording (no private data) in the task.
+- Status: applied (supervisor live check after each batch)
