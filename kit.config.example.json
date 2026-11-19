@@ -1,0 +1,52 @@
+{
+  "_comment": "Copy to <your project>/kit.config.json and edit. Paths are relative to the project root. Keys starting with _ are notes and are ignored.",
+
+  "board": "BOARD.md",
+  "taskPrompt": "",
+  "_taskPrompt": "Empty = use the kit's protocol/TASK-PROMPT.md. Set a project file (e.g. PROMPT-NEXT-TASK.md) to override.",
+  "dataDir": "data/overnight",
+  "_dataDir": "Runner logs, runs.jsonl, status.json, latest-summary.md. Must be gitignored.",
+
+  "protectedPaths": ["TASKS.md", "PROJECT.md"],
+  "_protectedPaths": "Files task sessions must never commit. The runner stops the run if a task commit touches one.",
+
+  "claude": {
+    "defaultModel": "opus",
+    "defaultEffort": "medium",
+    "maxTurns": 70,
+    "tools": "Bash,Read,Edit,Write,Glob,Grep,Agent",
+    "settingSources": "project,local",
+    "skipPermissions": true,
+    "_skipPermissions": "true passes --dangerously-skip-permissions (unattended runs). Only use in a repo where the project rules forbid destructive actions.",
+    "extraArgs": ["--exclude-dynamic-system-prompt-sections", "--strict-mcp-config"],
+    "env": {
+      "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1",
+      "BASH_MAX_OUTPUT_LENGTH": "8000"
+    }
+  },
+
+  "hooks": {
+    "dirtyPaths": ["src"],
+    "_dirtyPaths": "If any of these has uncommitted changes, a task is mid-edit: restart is skipped.",
+    "restartCommand": "",
+    "_restartCommand": "Shell command (bash) that restarts/rebuilds the live app. Empty = no restart step.",
+    "checkCommand": "",
+    "_checkCommand": "Shell command (bash) printing a SHORT accuracy/health summary (counts only, no private data). Run by checkpoint.sh --check.",
+    "checkDelaySeconds": 60,
+    "queueStatusCommand": "",
+    "_queueStatusCommand": "Shell command printing one line of background-queue state. Used by checkpoint.sh and wait-until.sh.",
+    "queueBusyPattern": "\"queued\"|\"processing\"",
+    "_queueBusyPattern": "Extended regex: while the queue line matches this, the queue is busy."
+  },
+
+  "watch": {
+    "tokenLimit": 6000000,
+    "stallMinutes": 45
+  },
+
+  "gemini": {
+    "blocked": ["^data[\\\\/]", "^\\.env", "config\\.json$", "\\.(db|sqlite|eml|pdf|png|jpe?g|heic|webp)$"],
+    "_blocked": "Regexes (against the repo-relative path) the free Gemini helper refuses to send. Add every private folder.",
+    "usageLog": "data/overnight/gemini-usage.jsonl"
+  }
+}

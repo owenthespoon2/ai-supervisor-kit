@@ -1,0 +1,6 @@
+node_modules/
+research/.bundle.md
+kit.config.json
+data/
+.env*
+*.log

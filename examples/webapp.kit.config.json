@@ -1,0 +1,19 @@
+{
+  "_comment": "Example for a pnpm monorepo web app served on localhost. All values fictional/generic.",
+  "board": "BOARD.md",
+  "taskPrompt": "PROMPT-NEXT-TASK.md",
+  "dataDir": "data/overnight",
+  "protectedPaths": ["TASKS.md", "TASKS-PROGRESS.md", "COMPLETEDTASKS.md", "PROJECT.md"],
+  "claude": { "defaultModel": "opus", "defaultEffort": "medium", "maxTurns": 70 },
+  "hooks": {
+    "dirtyPaths": ["apps"],
+    "restartCommand": "curl -s -m 10 -o /dev/null -w 'HTTP %{http_code}' -X POST -H 'Origin: http://localhost:5173' -H 'Content-Type: application/x-www-form-urlencoded' http://localhost:5173/settings/restart",
+    "checkCommand": "curl -s -m 10 http://localhost:5173/health/accuracy.json | head -c 800",
+    "checkDelaySeconds": 60,
+    "queueStatusCommand": "node --no-warnings scripts/queue-status.mjs",
+    "queueBusyPattern": "\"queued\"|\"processing\""
+  },
+  "gemini": {
+    "blocked": ["^data[\\\\/]", "^\\.env", "config\\.json$", "\\.(db|sqlite|eml|pdf|png|jpe?g|heic|webp)$"]
+  }
+}
